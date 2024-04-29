@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Dashboard{% endblock title %}
+{% block css %}
+{% endblock css %}
+{% block content %}
+
+    <!-- Page nav Start -->
+    <div class="container-fluid page-header py-2 mb-5">
+      <div class="container text-center py-5">
+          
+      </div>
+  </div>
+  <!-- Page nav End -->
+
+      <!--Message Start-->
+      {% if messages %}
+      {% for message in messages  %}
+      <div class="container alert alert-success alert-dismissible fade show" role="alert">
+        <i class="fa fa-check-circle" aria-hidden="true"></i> {{message}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      {% endfor %}
+      {% endif %}
+      <!--Message End-->
+
+  <!--Booking Start-->
+<div class="container py-2">
+  <div class="table-responsive-md">
+    <table class="table text-center">
+      <thead class="bg-primary text-white">
+        <tr>
+          <th scope="col">Device Name</th>
+          <th scope="col">Device Type</th>
+          <th scope="col">Return Date</th>
+          <th scope="col">Status</th>
+          {% if has_requested_reservations %}
+          <th scope="col">Cancel Reservation</th>
+          {% endif %}
+          
+        </tr>
+      </thead>
+      <tbody>
+        {% for reservation in user_reservations %}
+          <tr>
+            <td>{{ reservation.equipment.name }}</td>
+            <td>{{ reservation.equipment.type }}</td>
+            <td>{{ reservation.return_date }}</td>
+            <td>{{ reservation.status }}</td>
+            <td>
+              {% if reservation.status == 'Requested' %}
+              <a href="{% url 'inventory:delete_reservation_view' reservation.id%}" class="btn btn-danger">Cancel</a>
+              {% endif %}
+                
+            </td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="5">No records found.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+<!--Booking End-->
+
+{% endblock content %}

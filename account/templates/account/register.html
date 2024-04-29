@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Register{% endblock title %}
+{% block css %}<link rel="stylesheet" href="{% static 'account/css/register.css'%}">{% endblock css %}
+{% block content %}
+<div class="container-fluid main">
+    <div class="wrapper ">
+        <div class="form-box login">
+            <h2>Register</h2>
+            {% if form.errors %}
+            <ul>
+                {% for field, errors in form.errors.items %}
+                    {% for error in errors %}
+                        <li>{{ field|title }}: {{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+            {% endif %}
+            <form action="" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="input-box">
+                    <span class="icon"><ion-icon name="person"></ion-icon></span>
+                    <input type="text" name="first_name" required>
+                    <label for="">First Name</label>
+                </div>
+                <div class="input-box">
+                    <span class="icon"><ion-icon name="person"></ion-icon></span>
+                    <input type="text" name="last_name" required>
+                    <label for="">Last Name</label>
+                </div>
+
+                <div class="input-box">
+                    <span class="icon"><ion-icon name="person-circle"></ion-icon></span>
+                    <input type="text" name="username" required>
+                    <label for="">Username</label>
+                </div>
+
+                <div class="input-box">
+                    <span class="icon"><ion-icon name="mail"></ion-icon></span>
+                    <input type="text" name="email" required>
+                    <label for="">Email</label>
+                </div>
+                <div class="input-box">
+                    <span class="icon"><ion-icon name="call"></ion-icon></span>
+                    <input type="text" name="registration_no" required>
+                    <label for="">Registration no</label>
+                </div>
+
+
+                <div class="input-box">
+                    <span id="eyeicon" class="icon"><ion-icon name="eye-off"></ion-icon></span>
+                    <input id="password" type="password" name="password1" required>
+                    <label for="">Password</label>
+                </div>
+
+                <div class="input-box">
+                    <span id="eyeicon2" class="icon"><ion-icon name="eye-off"></ion-icon></span>
+                    <input id="password2" type="password" name="password2" required>
+                    <label for="">Confirm Password</label>
+                </div>
+
+                <button type="submit" class="submit-register-btn">Register</button>
+
+                <div class="login-register">
+                    <p>Already have an account? <a href="{% url "account:user_login_view" %}" class="register-link">Login</a></p>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    let eyeicon = document.getElementById('eyeicon')
+    let password = document.getElementById('password')
+    
+    eyeicon.onclick = function(){
+        if(password.type == 'password'){
+            password.type = 'text';
+            eyeicon.innerHTML = '<ion-icon name="eye"></ion-icon>';
+        }   
+        else{
+            password.type = 'password'
+            eyeicon.innerHTML = '<ion-icon name="eye-off"></ion-icon>';
+        }
+    }
+
+    let eyeicon2 = document.getElementById('eyeicon2');
+    let password2 = document.getElementById('password2');
+
+    eyeicon2.onclick = function(){
+        if(password2.type == 'password'){
+            password2.type = 'text';
+            eyeicon2.innerHTML = '<ion-icon name="eye"></ion-icon>';
+        }   
+        else{
+            password2.type = 'password';
+            eyeicon2.innerHTML = '<ion-icon name="eye-off"></ion-icon>';
+        }
+    }
+</script>
+{% endblock content %}

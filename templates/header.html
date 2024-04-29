@@ -1,0 +1,69 @@
+    <!-- Topbar Start -->
+    <div class="container-fluid bg-light p-0">
+        <div class="row gx-0 d-none d-lg-flex">
+            <div class="col-lg-7 px-5 text-start">
+                <div class="h-100 d-inline-flex align-items-center border-start border-end px-3">
+                    <small class="fa fa-phone-alt me-2"></small>
+                    <small>+92 300 1234567</small>
+                </div>
+                <div class="h-100 d-inline-flex align-items-center border-end px-3">
+                    <small class="far fa-envelope-open me-2"></small>
+                    <small>info@example.com</small>
+                </div>
+                <div class="h-100 d-inline-flex align-items-center border-end px-3">
+                    <small class="far fa-clock me-2"></small>
+                    <small>Mon - Fri : 09 AM - 09 PM</small>
+                </div>
+            </div>
+            <div class="col-lg-5 px-5 text-end">
+                <div class="h-100 d-inline-flex align-items-center">
+                    <a class="btn btn-square border-end border-start" href=""><i class="fab fa-facebook-f"></i></a>
+                    <a class="btn btn-square border-end" href=""><i class="fab fa-twitter"></i></a>
+                    <a class="btn btn-square border-end" href=""><i class="fab fa-linkedin-in"></i></a>
+                    <a class="btn btn-square border-end" href=""><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Topbar End -->
+
+
+    <!-- Navbar Start -->
+    <nav class="navbar navbar-expand-lg bg-white navbar-light sticky-top px-4 px-lg-5 py-lg-0">
+        <a href="{% url "inventory:home" %}" class="navbar-brand d-flex align-items-center">
+            <h1 class="m-0">Uni Equipment</h1>
+        </a>
+        <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav ms-auto py-3 py-lg-0">
+                <div class="nav-item">
+                    <a href="{% url "inventory:home" %}" class="nav-link">Main Inventory</a>
+                </div>
+                <div class="nav-item">
+                    <a href="{% url "inventory:DeviceAndSerials" %}" class="nav-link">Device & Serials</a>
+                </div>
+                {% if user.is_authenticated%}
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Settings</a>
+                        <div class="dropdown-menu bg-light m-0">
+                            <a href="{% url "account:user_profile_detail_view" %}" class="dropdown-item">Your Profile</a>
+                            <a href="{% url "inventory:student_dashboard" %}" class="dropdown-item">Your Reservations</a>
+                            <a href="{% url "password_change" %}" class="dropdown-item">Change Password</a>
+                            <a href="{% url "account:user_logout_view" %}" class="dropdown-item">Logout</a>
+                        </div>
+                    </div>
+
+                {% else %}
+                <div class="d-flex justify-content-center align-items-center gap-2">
+                 <a class="btn text-white bg-primary" href="{% url "account:user_login_view" %}">Login</a>
+                 <a class="text-white bg-primary btn " href="{% url "account:user_register_view" %}">Sign up</a>
+               </div>
+               
+               {% endif %}
+
+            </div>
+        </div>
+    </nav>
+    <!-- Navbar End -->

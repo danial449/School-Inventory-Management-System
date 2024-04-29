@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Device & Serials{% endblock title %}
+{% block css %}
+{% endblock css %}
+{% block content %}
+
+        <!-- Page nav Start -->
+        <div class="container-fluid page-header py-2 mb-5">
+          <div class="container-fluid text-center py-5">
+              <div class="row">
+                <div class="col-md-4">
+                      <div class="col-lg-12 text-lg-end ">
+                          <div class="select-menu">
+                          <div class="select-btn text-lg-end">
+                              <i class="fa fa-bars"></i>
+                              <span class="sBtn-text text-lg-end px-2">Select Type</span>
+                          </div>
+                          <ul class="options">
+                              {% for type in types %}
+                              <li class="option">
+                                  <a class="option-text text-decoration-none" href="{% url "inventory:device_in_type" type.id %}">{{type}}</a>
+                              </li>
+                              {% endfor %}
+                          </ul>
+                      </div>
+                      </div>
+                      
+                      <script>
+                          const optionMenu = document.querySelector(".select-menu"),
+                                selectBtn = optionMenu.querySelector(".select-btn"),
+                                options = optionMenu.querySelectorAll(".option"),
+                                sBtn_text = optionMenu.querySelector(".sBtn-text");
+                          selectBtn.addEventListener("click", () => optionMenu.classList.toggle("active"));       
+                          options.forEach(option =>{
+                               option.addEventListener("click", ()=>{
+                                   let selectedOption = option.querySelector(".option-text").innerText;
+                                   sBtn_text.innerText = selectedOption;
+      
+                                   optionMenu.classList.remove("active");
+                               });
+                           });
+                      </script>
+                </div>
+                <div class="col-md-4">
+                  <form class="d-flex" method="get">
+                    <select  class="form-select " name="sort_by" id="sort_by" >
+                        <option value="-id" {% if current_sorting == '-id' %}selected{% endif %}>Newest First</option>
+                        <option value="id" {% if current_sorting == 'id' %}selected{% endif %}>Oldest First</option>
+                        <!-- Add more sorting options as needed -->
+                    </select>
+                    <button class="btn btn-primary" type="submit">Sort</button>
+                </form>
+                </div>
+                <div class="col-md-4">
+                  <form class="d-flex" action="{% url 'inventory:device_search_view' %}" method="get" class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="q">
+                    <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
+                </form>
+                </div>
+              </div>
+          </div>
+      </div>
+      <!-- Page nav End -->
+
+  <!--Booking Start-->
+<div class="container py-2">
+  <div class="table-responsive-md">
+    <table class="table text-center">
+      <thead class="bg-primary text-white">
+        <tr>
+          <th scope="col">Device Name</th>
+          <th scope="col">Device Type</th>
+          <th scope="col">Serial No</th>
+          <th scope="col">CPU</th>
+          <th scope="col">GPU</th>
+          <th scope="col">RAM</th>
+          {% comment %} <th scope="col">Availability</th> {% endcomment %}
+          <th scope="col">Reserve</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for equipment in equipments %}
+    {% if equipment.availability %}
+      <tr>
+        <td>{{ equipment.name }}</td>
+        <td>{{ equipment.type }}</td>
+        <td>{{ equipment.serial_no }}</td>
+        <td>{{ equipment.CPU }}</td>
+        <td>{{ equipment.GPU }}</td>
+        <td>{{ equipment.RAM }}</td>
+        {% comment %} <td>{{ equipment.availability }}</td> {% endcomment %}
+        <td>
+          <form action="{% url 'inventory:reservation_view' 'Equipment' equipment.id %}" method="post">
+            {% csrf_token %}
+            <button class="btn btn-primary" type="submit">Reserve</button>
+          </form>
+        </td>
+      </tr>
+    {% endif %}
+  {% empty %}
+    <tr>
+      <td colspan="8">No records found.</td>
+    </tr>
+  {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+<!--Booking End-->
+
+    <!--Pagination Start-->
+    <div class="container-fluid wow fadeIn" data-wow-delay="0.2s">
+      <nav aria-label="Page navigation example wow fadeIn" data-wow-delay="0.1s">
+       <ul class="pagination justify-content-center">
+
+           {% if equipments.has_previous %}
+           <li class="page-item">
+             <a class="page-link" href="/device-and-serials/?page={{equipments.previous_page_number}}" aria-label="Previous">
+               <span aria-hidden="true">&laquo;</span>
+             </a>
+           </li>
+           {% endif %}
+
+           {% for n in totalpagelist %}
+           <li class="page-item"><a class="page-link" href="/device-and-serials/?page={{n}}">{{n}}</a></li>
+           {% endfor %}
+
+         {% if equipments.has_next %}
+         <li class="page-item">
+           <a class="page-link" href="/device-and-serials/?page={{equipments.next_page_number}}" aria-label="Next">
+             <span aria-hidden="true">&raquo;</span>
+           </a>
+         </li>   
+       {% endif %}
+       </ul>
+      </nav>
+   </div>
+   <!--Pagination End-->
+{% endblock content %}

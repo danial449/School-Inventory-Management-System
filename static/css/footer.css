@@ -1,0 +1,33 @@
+footer {
+    background-color: #1B222C;
+    color: white;
+}
+
+.ionicon-social {
+    font-size: 20px;
+    margin: 0px 10px;
+}
+
+@media (max-width: 768px) {
+    .social-icons-list {
+        display: flex;
+        justify-content: center;
+        /* Adjust alignment for small screens */
+
+    }
+}
+
+.unit {
+    display: flex;
+
+}
+
+@media (min-width:768px) {
+    .flex-xs-row {
+        flex-direction: row !important;
+    }
+}
+
+.ionicon {
+    margin-right: 10px;
+}

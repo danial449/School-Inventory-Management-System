@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Search Results{% endblock title %}
+{% block css %}
+{% endblock css %}
+{% block content %}
+
+<div class="container-fluid page-header py-2 mb-5">
+    <div class="container-fluid text-center py-5 ">
+        <h1 class="text-white">Search Results for "{{ query }}"</h1>
+    </div>
+</div>
+
+
+  <!--Booking Start-->
+<div class="container py-2">
+  <div class="table-responsive-md">
+    <h2>Main Inventory:</h2>
+    <table class="table text-center">
+      <thead class="bg-primary text-white">
+        <tr>
+          <th scope="col">Device Name</th>
+          <th scope="col">Device Type</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Audit</th>
+          <th scope="col">Location</th>
+          <th scope="col">Status</th>
+          <th scope="col">Reserve</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for main_equipment in main_equipments %}
+          <tr>
+            <td>{{ main_equipment.name }}</td>
+            <td>{{ main_equipment.type }}</td>
+            <td>{{ main_equipment.quantity }}</td>
+            <td>{{ main_equipment.audit }}</td>
+            <td>{{ main_equipment.location }}</td>
+            <td>{{ main_equipment.status }}</td>
+            <td><form action="{% url 'inventory:reservation_view' 'MainEquipment' main_equipment.id %}" method="post">
+                {% csrf_token %}
+                {% if main_equipment.status == 'Available' %}
+                <button class="btn btn-primary" type="submit">Reserve</button>
+                {% else %}
+                <button class="btn btn-primary" type="submit" disabled>Reserve</button>
+                {% endif %}
+                </form>
+            </td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="5">No records found.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+<!--Booking End-->
+
+   
+{% endblock content %}
+

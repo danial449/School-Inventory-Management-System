@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Search Results{% endblock title %}
+{% block css %}
+{% endblock css %}
+{% block content %}
+
+<div class="container-fluid page-header py-2 mb-5">
+    <div class="container-fluid text-center py-5 ">
+        <h1 class="text-white">Search Results for "{{ query }}"</h1>
+    </div>
+</div>
+
+
+  <!--Booking Start-->
+  <div class="container py-2">
+    <div class="table-responsive-md">
+      <table class="table text-center">
+        <h2>Devices & Serials:</h2>
+        <thead class="bg-primary text-white">
+          <tr>
+            <th scope="col">Device Name</th>
+            <th scope="col">Device Type</th>
+            <th scope="col">Serial No</th>
+            <th scope="col">CPU</th>
+            <th scope="col">GPU</th>
+            <th scope="col">RAM</th>
+            <th scope="col">Availability</th>
+            <th scope="col">Reserve</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for equipment in equipments %}
+            <tr>
+              <td>{{ equipment.name }}</td>
+              <td>{{ equipment.type }}</td>
+              <td>{{ equipment.serial_no }}</td>
+              <td>{{ equipment.CPU }}</td>
+              <td>{{ equipment.GPU }}</td>
+              <td>{{ equipment.RAM }}</td>
+              <td>{{ equipment.availability }}</td>
+              <td><form action="{% url 'inventory:reservation_view' 'Equipment' equipment.id %}" method="post">
+                  {% csrf_token %}
+                  <button class="btn btn-primary" type="submit">Reserve</button>
+                  </form>
+              </td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="5">No records found.</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <!--Booking End-->
+
+   
+{% endblock content %}
+

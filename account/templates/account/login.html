@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Login{% endblock title %}
+{% block css %}<link rel="stylesheet" href="{% static 'account/css/login.css'%}">{% endblock css %}
+{% block content %}
+<div class="container-fluid main">
+    <div class="wrapper ">
+        <div class="form-box login">
+            <h2>Login</h2>
+
+          <!--Email Confirmation Message Start-->
+          {% if messages %}
+          {% for message in messages  %}
+          <div class="alert alert-info alert-dismissible fade show" role="alert">
+            <i class="fa fa-info-circle" aria-hidden="true"></i> {{message}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+          {% endfor %}
+          {% endif %}
+          <!--Email Confirmation Message End-->
+
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="input-box">
+                    <span class="icon"><ion-icon name="person"></ion-icon></span>
+                    <input type="text" name="username" required>
+                    <label for="">Username</label>
+                </div>
+
+                <div class="input-box">
+                    <span id="eyeicon" class="icon"><ion-icon name="eye-off"></ion-icon></span>
+                    <input id="password" type="password" name="password"  required>
+                    <label for="">Password</label>
+                </div>
+
+                <div class="remember-forget">
+                    <label for=""><input type="checkbox"> Remember me</label>
+                    <a href="{% url 'password_reset'%}">Forget Password?</a>
+                </div>
+
+                <button type="submit" class="submit-login-btn">Login</button>
+
+                {% comment %} <div class="login-as-service-provider">
+                    <p>Login as Vendor! <a href="#" class="login-link">Login</a></p>
+                </div> {% endcomment %}
+                <div class="login-register">
+                    <p>Don't have an account? <a href="{% url "account:user_register_view" %}" class="register-link">Register</a></p>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    let eyeicon = document.getElementById('eyeicon');
+    let password = document.getElementById('password');
+    
+    eyeicon.onclick = function(){
+        if(password.type == 'password'){
+            password.type = 'text';
+            eyeicon.innerHTML = '<ion-icon name="eye"></ion-icon>';
+        }   
+        else{
+            password.type = 'password';
+            eyeicon.innerHTML = '<ion-icon name="eye-off"></ion-icon>';
+        }
+    }
+</script>
+{% endblock content %}

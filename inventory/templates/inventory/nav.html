@@ -1,0 +1,59 @@
+    <!-- Page nav Start -->
+    <div class="container-fluid page-header py-2 mb-5">
+        <div class="container-fluid text-center py-5">
+            <div class="row">
+              <div class="col-md-4">
+                    <div class="col-lg-12 text-lg-end ">
+                        <div class="select-menu">
+                        <div class="select-btn text-lg-end">
+                            <i class="fa fa-bars"></i>
+                            <span class="sBtn-text text-lg-end px-2">Select Type</span>
+                        </div>
+                        <ul class="options">
+                            {% for type in types %}
+                            <li class="option">
+                                <a class="option-text text-decoration-none" href="{% url "inventory:equipment_in_type" type.id %}">{{type}}</a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    </div>
+                    
+                    <script>
+                        const optionMenu = document.querySelector(".select-menu"),
+                              selectBtn = optionMenu.querySelector(".select-btn"),
+                              options = optionMenu.querySelectorAll(".option"),
+                              sBtn_text = optionMenu.querySelector(".sBtn-text");
+                        selectBtn.addEventListener("click", () => optionMenu.classList.toggle("active"));       
+                        options.forEach(option =>{
+                             option.addEventListener("click", ()=>{
+                                 let selectedOption = option.querySelector(".option-text").innerText;
+                                 sBtn_text.innerText = selectedOption;
+    
+                                 optionMenu.classList.remove("active");
+                             });
+                         });
+                    </script>
+              </div>
+              <div class="col-md-4">
+                <form class="d-flex" method="get">
+                    <select  class="form-select " name="sort_by" id="sort_by" >
+                        <option value="-id" {% if current_sorting == '-id' %}selected{% endif %}>Newest First</option>
+                        <option value="id" {% if current_sorting == 'id' %}selected{% endif %}>Oldest First</option>
+                        <!-- Add more sorting options as needed -->
+                    </select>
+                    <button class="btn btn-primary" type="submit">Sort</button>
+                </form>
+                
+              </div>
+              <div class="col-md-4">
+                <form class="d-flex" action="{% url 'inventory:search_view' %}" method="get" class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="q">
+                    <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
+                </form>
+                
+              </div>
+            </div>
+        </div>
+    </div>
+    <!-- Page nav End -->

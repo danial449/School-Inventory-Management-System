@@ -1,0 +1,28 @@
+@media (max-width: 991px) {
+    .sidebar {
+        background-color: rgba(61, 71, 79, 0.7);
+        backdrop-filter: blur(10px);
+    }
+}
+
+.navbar {
+    background-color: rgb(31, 31, 31);
+}
+
+.upper-header-tagline {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.upper-header-tagline p {
+    margin: 4px;
+    font-size: 20px;
+}
+
+@media (max-width: 425px) {
+    .upper-header-tagline p {
+        font-size: 14px;
+    }
+}
